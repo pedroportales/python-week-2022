@@ -21,13 +21,7 @@ class Beer(SQLModel, table=True):
             raise RuntimeError(f"{field.name} must between 1 and 10")
         return v
 
-    @validator("flavor", "image", "cost")
+    @validator("rate", always=True)
     def calculate_rate(cls, v, values):
-        rate = mean(
-            [
-                values["flavor"],
-                values["image"],
-                values["cost"]
-            ]
-        )
+        rate = mean([values["flavor"], values["image"], values["cost"]])
         return int(rate)
